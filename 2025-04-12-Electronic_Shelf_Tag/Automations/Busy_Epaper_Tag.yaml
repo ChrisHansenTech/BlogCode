@@ -1,0 +1,78 @@
+alias: Epaper Busy Tag
+description: "Updates an epaper tag with busy or available based on calendar events"
+triggers:
+  - trigger: calendar
+    entity_id: calendar.<YOUR_CALENDAR>
+    event: start
+    offset: "0:0:0"
+    id: START
+  - trigger: calendar
+    entity_id: calendar.<YOUR_CALENDAR>
+    event: end
+    offset: "0:0:0"
+    id: END
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - START
+        sequence:
+          - variables:
+              back_color: red
+              text_color: white
+              message: BUSY
+              icon1: mdi:alert-circle
+              icon2: mdi:alert-circle
+      - conditions:
+          - condition: trigger
+            id:
+              - END
+        sequence:
+          - variables:
+              back_color: white
+              text_color: black
+              message: AVAILAVBLE
+              icon1: mdi:emoticon-happy
+              icon2: mdi:teddy-bear
+  - action: open_epaper_link.drawcustom
+    metadata: {}
+    data:
+      rotate: 0
+      dither: "0"
+      ttl: 60
+      dry-run: true
+      background: white
+      payload:
+        - type: rectangle
+          x_start: 0
+          x_end: 250
+          y_start: 0
+          y_end: 128
+          fill: "{{ back_color }}"
+        - type: icon
+          value: "{{ icon1 }}"
+          x: 10%
+          "y": 50%
+          size: 28
+          fill: "{{ text_color }}"
+          anchor: mm
+        - type: text
+          value: "{{ message }}"
+          x: 50%
+          "y": 50%
+          font: ppb.ttf
+          size: 28
+          color: "{{ text_color }}"
+          anchor: mm
+        - type: icon
+          value: "{{ icon2 }}"
+          x: 90%
+          "y": 50%
+          size: 28
+          fill: "{{ text_color }}"
+          anchor: mm
+    target:
+      device_id: <YOUR_EPAPER_TAG_DEVICE>
+mode: single

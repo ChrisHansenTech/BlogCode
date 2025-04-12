@@ -1,0 +1,48 @@
+alias: Epaper tag shopping list
+description: "Displays your Grocy shopping list on a 4.2 inch epaper tag"
+sequence:
+  - action: todo.get_items
+    metadata: {}
+    data:
+      status: needs_action
+    target:
+      entity_id: todo.<YOUR_GROCY_SHOPPING_LIST>
+    response_variable: item_list
+  - variables:
+      items: >-
+        - {{ item_list['todo.<YOUR_GROCY_SHOPPING_LIST>']['items'] |
+        map(attribute='summary') | join('|- ') }}
+  - action: open_epaper_link.drawcustom
+    metadata: {}
+    data:
+      rotate: 0
+      dither: "0"
+      ttl: 60
+      dry-run: false
+      background: white
+      payload:
+        - type: rectangle
+          x_start: 0
+          x_end: 400
+          y_start: 0
+          y_end: 40
+          width: 2
+          fill: red
+          outline: black
+        - type: text
+          value: Shopping List
+          x: 50%
+          "y": 20
+          anchor: mm
+          size: 30
+          color: white
+        - type: multiline
+          value: "{{ items }}"
+          delimiter: "|"
+          x: 5
+          start_y: 55
+          offset_y: 22
+          size: 18
+          color: black
+    target:
+      device_id: <YOUR_EPAPER_TAG>

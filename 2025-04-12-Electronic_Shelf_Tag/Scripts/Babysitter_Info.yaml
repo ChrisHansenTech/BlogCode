@@ -1,0 +1,105 @@
+alias: Babysitter info epaper tag
+description: "Displays the babysitter info on a 4.2 inch epaper tag"
+sequence:
+  - action: open_epaper_link.drawcustom
+    metadata: {}
+    data:
+      rotate: 0
+      dither: "0"
+      ttl: 60
+      dry-run: false
+      payload:
+        - type: rectangle
+          x_start: 0
+          x_end: 200
+          y_start: 0
+          y_end: 30
+          fill: red
+        - type: text
+          value: Kid Routines
+          x: 100
+          "y": 5
+          font: ppb.ttf
+          size: 18
+          color: white
+          anchor: mt
+        - type: multiline
+          value: "- Snack at 10am| - Nap at 1pm| - Screen time: 4pm| - Bedtime: 7:30pm"
+          delimiter: "|"
+          x: 10
+          start_y: 40
+          offset_y: 20
+          font: ppb.ttf
+          size: 16
+          color: black
+        - type: rectangle
+          x_start: 200
+          x_end: 400
+          y_start: 0
+          y_end: 30
+          fill: red
+        - type: text
+          value: Emergency Contacts
+          x: 300
+          "y": 5
+          font: ppb.ttf
+          size: 18
+          color: white
+          anchor: mt
+        - type: multiline
+          value: "- Jackie: 555-1234| - Chris: 555-5678| - Dr. Lee: 555-9012"
+          delimiter: "|"
+          x: 210
+          start_y: 40
+          offset_y: 20
+          font: ppb.ttf
+          size: 16
+          color: black
+        - type: rectangle
+          x_start: 0
+          x_end: 200
+          y_start: 150
+          y_end: 180
+          fill: red
+        - type: text
+          value: WiFi Info
+          x: 100
+          "y": 155
+          font: ppb.ttf
+          size: 18
+          color: white
+          anchor: mt
+        - type: qrcode
+          data: WIFI:T:WPA;S:HansenHome;P:babysitme;;
+          x: 50
+          "y": 185
+          boxsize: 2
+          border: 2
+          color: black
+          bgcolor: white
+        - type: rectangle
+          x_start: 200
+          x_end: 400
+          y_start: 150
+          y_end: 180
+          fill: red
+        - type: text
+          value: Plex Info
+          x: 300
+          "y": 155
+          font: ppb.ttf
+          size: 18
+          color: white
+          anchor: mt
+        - type: multiline
+          value: "- Bluey|- Lazy Town|- Cliford"
+          delimiter: "|"
+          x: 210
+          start_y: 190
+          offset_y: 20
+          font: ppb.ttf
+          size: 16
+          color: black
+      background: white
+    target:
+      device_id: <YOUR_EPAPER_TAG>
