@@ -1,0 +1,21 @@
+alias: Radon - Alert After 24 Hours High
+description: "Triggers if high radon datetime helper has been high for 24 hours"
+
+triggers:
+  - hours: /1                       # Runs every hour
+    trigger: time_pattern
+
+conditions:
+  - condition: template
+    value_template: >
+      {{ (now() - state_attr('input_datetime.<radon_high_since_id>', 'timestamp') |
+      float | as_datetime).total_seconds() > <seconds_threshold> }}  # e.g., 86400 for 24 hours
+
+actions:
+  - data:
+      title: <notification_title>   # e.g., Radon Alert
+      message: >
+        <notification_message>      # e.g., Radon levels have remained above 4.0 pCi/L for over 24 hours...
+    action: persistent_notification.create
+
+mode: single

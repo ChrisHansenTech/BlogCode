@@ -1,0 +1,39 @@
+alias: Radon - Exhaust Fan
+description: "Turn on basement exhaust fan if radon levels are high, otherwise turn it off"
+
+triggers:
+  - trigger: numeric_state
+    entity_id:
+      - sensor.<radon_sensor_entity_id>     # e.g., sensor.airthings_wave2_182250_radon_1_day_average
+    above: <radon_high_threshold>           # e.g., 4 - threshold to turn ON fan
+    id: radon_hi
+  - trigger: numeric_state
+    entity_id:
+      - sensor.<radon_sensor_entity_id>     # Same sensor as above
+    for:
+      hours: <low_duration_hours>           # e.g., 1 hour
+      minutes: <low_duration_minutes>       # e.g., 0 minutes
+      seconds: <low_duration_seconds>       # e.g., 0 seconds
+    below: <radon_low_threshold>            # e.g., 3.6 - threshold to turn OFF fan
+
+conditions: []
+
+actions:
+  - if:
+      - condition: trigger
+        id:
+          - radon_hi
+    then:
+      - action: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.<exhaust_fan_switch_entity_id>   # e.g., switch.basement_exhaust_fan
+    else:
+      - action: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.<exhaust_fan_switch_entity_id>   # Same entity ID as above
+
+mode: single

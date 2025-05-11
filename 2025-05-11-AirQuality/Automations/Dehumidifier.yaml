@@ -1,0 +1,33 @@
+alias: Dehumidifier on/of
+description: "Turn the dehumidifer on/off at the set humidity levels"
+
+triggers:
+  - entity_id:
+      - sensor.<humidity_sensor_entity_id>  # e.g., sensor.utility_room_weather_sensor_humidity
+    above: <humidity_high_threshold>         # e.g., 50 - humidity level to turn ON dehumidifier
+    id: High
+    trigger: numeric_state
+  - entity_id:
+      - sensor.<humidity_sensor_entity_id>  # Same sensor as above
+    below: <humidity_low_threshold>         # e.g., 45 - humidity level to turn OFF dehumidifier
+    trigger: numeric_state
+
+conditions: []
+
+actions:
+  - if:
+      - condition: trigger
+        id:
+          - High
+    then:
+      - type: turn_on
+        device_id: <dehumidifier_device_id>     # Device ID of your dehumidifier switch
+        entity_id: <dehumidifier_entity_id>     # Entity ID of your dehumidifier switch (e.g., switch.utility_room_dehumidifier)
+        domain: switch
+    else:
+      - type: turn_off
+        device_id: <dehumidifier_device_id>     # Same device ID as above
+        entity_id: <dehumidifier_entity_id>     # Same entity ID as above
+        domain: switch
+
+mode: single

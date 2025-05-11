@@ -1,0 +1,35 @@
+alias: Radon - Set Timer
+description: Sets a datetime helper to track if radon has been high for more than 24 hours
+
+triggers:
+  - trigger: numeric_state
+    entity_id:
+      - sensor.<radon_sensor_entity_id>     # e.g., sensor.airthings_wave2_182250_radon_1_day_average
+    above: <radon_high_threshold>           # e.g., 4 - pCi/L level considered high
+    id: radon_high
+  - trigger: numeric_state
+    entity_id:
+      - sensor.<radon_sensor_entity_id>     # Same sensor as above
+    below: <radon_high_threshold>           # Same threshold to detect drop below high level
+
+conditions: []
+
+actions:
+  - if:
+      - condition: trigger
+        id:
+          - radon_high
+    then:
+      - action: input_datetime.set_datetime
+        metadata: {}
+        data:
+          datetime: "{{ now().isoformat() }}"               # Set datetime to current time when radon is high
+        target:
+          entity_id: input_datetime.<radon_high_since_id>   # e.g., input_datetime.radon_high_since
+    else:
+      - action: input_datetime.set_datetime
+        metadata: {}
+        data:
+          datetime: "1970-01-01 00:00:00"                    # Reset the datetime when radon drops below threshold
+
+mode: single
