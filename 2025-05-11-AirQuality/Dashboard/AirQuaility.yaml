@@ -1,0 +1,184 @@
+type: sections
+max_columns: 3
+title: Indoor Air Quality
+path: <dashboard_path>                 # e.g., indoor-air-quality
+icon: <dashboard_icon>                 # e.g., mdi:air-filter
+theme: <dashboard_theme>               # e.g., ios-dark-mode
+dense_section_placement: false
+
+sections:
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        apex_config:
+          legend:
+            show: false
+        header:
+          show: true
+          title: <radon_chart_title>         # e.g., Radon
+          show_states: true
+          colorize_states: true
+        experimental:
+          color_threshold: true
+        series:
+          - entity: sensor.<radon_day_avg>   # e.g., airthings_wave2_182250_radon_1_day_average
+            name: <radon_day_name>           # e.g., One day average
+            show:
+              header_color_threshold: true
+            stroke_width: 2
+            color_threshold:
+              - value: 3
+                color: green
+              - value: 4
+                color: yellow
+              - value: 5
+                color: red
+          - entity: sensor.<radon_long_avg>  # e.g., airthings_wave2_182250_radon_longterm_average
+            name: <radon_long_name>          # e.g., Long term average
+            show:
+              header_color_threshold: true
+            stroke_width: 2
+            color_threshold:
+              - value: 3
+                color: green
+              - value: 4
+                color: yellow
+              - value: 5
+                color: red
+
+      - type: custom:apexcharts-card
+        apex_config:
+          legend:
+            show: false
+        header:
+          show: true
+          title: <temperature_chart_title>   # e.g., Temperature
+          show_states: true
+          colorize_states: true
+        experimental:
+          color_threshold: true
+        series:
+          - entity: sensor.<temp_main>       # e.g., thermostat_current_temperature
+            name: <temp_main_label>          # e.g., Main floor
+            stroke_width: 2
+            show:
+              header_color_threshold: true
+            color_threshold:
+              - value: 67
+                color: blue
+              - value: 72
+                color: yellow
+              - value: 80
+                color: red
+          - entity: sensor.<temp_basement>   # e.g., airthings_wave2_182250_temperature
+            name: <temp_basement_label>      # e.g., Basement Family Room
+            stroke_width: 2
+            show:
+              header_color_threshold: true
+            color_threshold:
+              - value: 67
+                color: blue
+              - value: 72
+                color: yellow
+              - value: 80
+                color: red
+          - entity: sensor.<temp_office>     # e.g., meter_adf3
+            name: <temp_office_label>        # e.g., Office
+            stroke_width: 2
+            show:
+              header_color_threshold: true
+            color_threshold:
+              - value: 67
+                color: blue
+              - value: 72
+                color: yellow
+              - value: 80
+                color: red
+
+  - type: grid
+    cards:
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: <co2_chart_title>           # e.g., Office CO₂
+          show_states: true
+          colorize_states: true
+        experimental:
+          color_threshold: true
+        series:
+          - entity: sensor.<co2_sensor>      # e.g., meter_adf3_carbon_dioxide
+            name: <co2_label>                # e.g., CO₂
+            show:
+              header_color_threshold: true
+            stroke_width: 2
+            color_threshold:
+              - value: 1000
+                color: green
+              - value: 1400
+                color: yellow
+              - value: 3000
+                color: red
+
+      - type: custom:apexcharts-card
+        apex_config:
+          legend:
+            show: false
+        header:
+          show: true
+          title: <humidity_chart_title>      # e.g., Basement Humidity
+          show_states: true
+          colorize_states: true
+        experimental:
+          color_threshold: true
+        series:
+          - entity: sensor.<humidity_office> # e.g., meter_adf3_humidity
+            name: <humidity_office_label>    # e.g., Office
+            stroke_width: 2
+            show:
+              header_color_threshold: true
+            color_threshold:
+              - value: 25
+                color: red
+              - value: 30
+                color: yellow
+              - value: 60
+                color: green
+              - value: 70
+                color: yellow
+              - value: 80
+                color: red
+          - entity: sensor.<humidity_family> # e.g., airthings_wave2_182250_humidity
+            name: <humidity_family_label>    # e.g., Family room
+            stroke_width: 2
+            show:
+              header_color_threshold: true
+            color_threshold:
+              - value: 25
+                color: red
+              - value: 30
+                color: yellow
+              - value: 60
+                color: green
+              - value: 70
+                color: yellow
+              - value: 80
+                color: red
+          - entity: sensor.<humidity_utility> # e.g., utility_room_weather_sensor_humidity
+            name: <humidity_utility_label>   # e.g., Utility room
+            stroke_width: 2
+            show:
+              header_color_threshold: true
+            color_threshold:
+              - value: 25
+                color: red
+              - value: 30
+                color: yellow
+              - value: 60
+                color: green
+              - value: 70
+                color: yellow
+              - value: 80
+                color: red
+
+header: {}
+cards: []
