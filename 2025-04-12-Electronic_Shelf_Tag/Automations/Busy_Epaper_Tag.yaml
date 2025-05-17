@@ -42,7 +42,7 @@ actions:
       rotate: 0
       dither: "0"
       ttl: 60
-      dry-run: true
+      dry-run: false
       background: white
       payload:
         - type: rectangle
